@@ -17,6 +17,7 @@ leuchten.*
 ## Starten
 
 **Doppelklick auf `index.html`.** Das ist alles.
+
 Link zur Livedemo: https://julianharder.github.io/Elektron---Interaktive-Werkstatt-f-r-Logikschaltungen/
 
 Keine Installation, kein `npm install`, kein Build-Schritt, kein Server. Die
