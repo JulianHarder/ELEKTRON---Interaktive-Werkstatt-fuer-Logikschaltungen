@@ -1,0 +1,42 @@
+/* Bewegung: kurz, weich, abschaltbar. */
+
+@keyframes fade-in       { from { opacity: 0; } to { opacity: 1; } }
+@keyframes rise-in       { from { opacity: 0; transform: translateY(6px); }
+                           to   { opacity: 1; transform: none; } }
+@keyframes pop-in        { 0%   { opacity: 0; transform: scale(.94); }
+                           60%  { opacity: 1; transform: scale(1.02); }
+                           100% { transform: scale(1); } }
+@keyframes pulse-amber   { 0%,100% { box-shadow: 0 0 0 0 rgba(255,181,71,.34); }
+                           50%     { box-shadow: 0 0 0 6px rgba(255,181,71,0); } }
+
+.anim-fade { animation: fade-in var(--t-med) var(--ease-out) both; }
+.anim-rise { animation: rise-in var(--t-med) var(--ease-out) both; }
+.anim-pop  { animation: pop-in  var(--t-med) var(--ease-out) both; }
+.anim-attn { animation: pulse-amber 1.6s var(--ease-in-out) infinite; }
+
+/* Systemeinstellung und eigene Einstellung "Effekte reduzieren" respektieren. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+}
+body.reduce-motion *, body.reduce-motion *::before, body.reduce-motion *::after {
+  animation-duration: .001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: .001ms !important;
+}
+
+/* Menü gleitet kurz und weich herein. */
+@keyframes menu-rise {
+  from { opacity: 0; transform: translateY(8px) scale(.985); }
+  to   { opacity: 1; transform: none; }
+}
+
+
+/* Tooltip blendet kurz ein – schnell genug, um nicht zu bremsen. */
+@keyframes tip-in {
+  from { opacity: 0; transform: translateY(3px); }
+  to   { opacity: 1; transform: none; }
+}

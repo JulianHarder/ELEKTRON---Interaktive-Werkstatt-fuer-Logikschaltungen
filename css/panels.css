@@ -1,0 +1,126 @@
+/* Panels, Buttons, Bausteinleiste, Tabellen. */
+
+/* --- Buttons --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  height: 32px;
+  padding: 0 var(--sp-3);
+  font: inherit;
+  font-size: var(--fs-sm);
+  color: var(--c-text-dim);
+  background: var(--c-panel-2);
+  border: 1px solid var(--c-panel-border);
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  transition: background var(--t-fast) var(--ease-out),
+              color var(--t-fast) var(--ease-out),
+              border-color var(--t-fast) var(--ease-out),
+              transform var(--t-fast) var(--ease-out);
+}
+.btn:hover { background: var(--c-panel-hover); color: var(--c-text); border-color: #2c3a52; }
+.btn:active { transform: translateY(1px); }
+.btn[disabled] { opacity: .4; pointer-events: none; }
+.btn .ico { width: 15px; height: 15px; display: block; }
+
+.btn-ghost { background: transparent; border-color: transparent; }
+.btn-ghost:hover { background: var(--c-panel-hover); border-color: var(--c-panel-border); }
+
+/* Hauptaktion – es gibt immer nur eine davon. */
+.btn-primary {
+  height: 34px;
+  padding: 0 var(--sp-4);
+  font-weight: 600;
+  color: #1a1206;
+  background: linear-gradient(180deg, var(--c-signal-soft), var(--c-signal));
+  border-color: #c98a2c;
+  box-shadow: 0 2px 14px rgba(255, 181, 71, .22);
+}
+.btn-primary:hover { filter: brightness(1.06); color: #1a1206; }
+/* Ohne Aufgabe gibt es nichts zu prüfen – dann soll der Knopf auch nicht wie
+   die Hauptaktion aussehen, sondern nur wie ein abgeblendeter Knopf. */
+.btn-primary[disabled] {
+  background: var(--c-panel-2);
+  color: var(--c-text-faint);
+  border-color: var(--c-panel-border);
+  box-shadow: none;
+  opacity: 1;
+}
+
+.btn-group { display: flex; gap: 2px; padding: 2px; background: #0c1119;
+             border: 1px solid var(--c-panel-border); border-radius: var(--r-sm);
+             flex: none; align-items: center; }
+.btn-group .btn { height: 26px; border: 0; background: transparent; border-radius: 4px; }
+.btn-group .btn.is-active { background: var(--c-panel-hover); color: var(--c-text); }
+
+/* --- Panel-Grundform --- */
+.panel {
+  background: var(--c-panel);
+  border: 1px solid var(--c-panel-border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sh-panel);
+  backdrop-filter: blur(10px);
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  height: 36px;
+  padding: 0 var(--sp-3);
+  border-bottom: 1px solid var(--c-panel-border);
+}
+.panel-title {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--c-text-faint);
+}
+
+/* --- Bausteinleiste --- */
+.palette { flex: 1; min-height: 0; padding: var(--sp-3); display: flex; flex-direction: column; gap: var(--sp-4); }
+.palette-group { display: flex; flex-direction: column; gap: var(--sp-2); }
+.palette-group > .palette-label {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--c-text-faint);
+  padding-left: 2px;
+}
+
+.part-chip {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-2);
+  background: linear-gradient(180deg, var(--c-body-top), var(--c-body-bottom));
+  border: 1px solid var(--c-panel-border);
+  border-radius: var(--r-md);
+  cursor: grab;
+  transition: border-color var(--t-fast) var(--ease-out),
+              transform var(--t-fast) var(--ease-out),
+              box-shadow var(--t-fast) var(--ease-out);
+}
+.part-chip:hover {
+  border-color: #3d4f6d;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .35);
+}
+.part-chip.is-armed { border-color: var(--c-signal); box-shadow: 0 0 0 1px rgba(255,181,71,.35); }
+.part-chip canvas { width: 64px; height: 48px; flex: none; }
+.part-chip .name { font-size: var(--fs-md); font-weight: 500; }
+.part-chip .hint { font-size: var(--fs-xs); color: var(--c-text-faint); }
+.part-chip .text { display: flex; flex-direction: column; min-width: 0; }
+
+.part-chip.is-locked { opacity: .35; cursor: default; }
+.part-chip.is-locked:hover { transform: none; box-shadow: none; border-color: var(--c-panel-border); }
+
+/* Baustein wird gerade auf die Fläche gezogen. */
+.part-chip.is-dragging {
+  border-color: var(--c-signal);
+  opacity: .6;
+  cursor: grabbing;
+}

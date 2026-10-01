@@ -1,0 +1,278 @@
+/* Die Karte rechts auf der Arbeitsfläche und der Tooltip am Zeiger –
+   alles, was über der Schaltung liegt. Menü und Fenster stehen in
+   dialogs.css. */
+
+/* --- Die Karte --- */
+.level-card {
+  position: absolute;
+  top: var(--sp-4);
+  right: var(--sp-4);
+  width: 288px;
+  max-height: calc(100% - var(--sp-6));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 4;
+}
+.level-card[hidden] { display: none; }
+
+.card-head {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-2) var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--c-panel-border);
+}
+.level-card.is-collapsed .card-head { border-bottom: 0; }
+
+.card-step {
+  flex: none;
+  padding: 2px 7px;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: .08em;
+  color: var(--c-signal);
+  background: rgba(255, 181, 71, .12);
+  border-radius: 999px;
+}
+.card-title {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--fs-md);
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.card-fold { padding: 4px; }
+.card-fold .ico { width: 14px; height: 14px; }
+
+.card-body { padding: var(--sp-4); overflow: auto; }
+.card-task { margin: 0; font-size: var(--fs-md); line-height: 1.55; color: var(--c-text); }
+.card-note {
+  margin: var(--sp-3) 0 0;
+  padding-left: var(--sp-3);
+  border-left: 2px solid var(--c-panel-border);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  color: var(--c-text-faint);
+}
+.card-note[hidden] { display: none; }
+.card-truthnote { border-left-color: var(--c-signal); }
+
+/* --- Wahrheitstabelle --- */
+.truth {
+  margin: var(--sp-4) 0 0;
+  border: 1px solid var(--c-panel-border);
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+}
+.card-body > .truth:first-child { margin-top: 0; }
+
+.truth-row {
+  display: flex;
+  border-top: 1px solid var(--c-panel-border);
+  transition: background var(--t-fast) var(--ease-out);
+}
+.truth-row:first-child { border-top: 0; }
+.truth-head {
+  background: #0c1119;
+  color: var(--c-text-faint);
+  font-size: var(--fs-xs);
+  letter-spacing: .04em;
+}
+.truth .cell {
+  flex: 1;
+  padding: 5px 0;
+  text-align: center;
+  color: var(--c-text-dim);
+  font-variant-numeric: tabular-nums;
+}
+/* Die Ausgangsspalten sind durch eine Linie abgesetzt – links steht, was man
+   einstellt, rechts, was dabei herauskommt. */
+.truth .cell-out { color: var(--c-text); }
+.truth .cell-out:first-of-type { border-left: 1px solid var(--c-panel-border); }
+.truth .cell-out.is-on { color: var(--c-signal); font-weight: 600; }
+
+/* Die Zeile, die zur aktuellen Schalterstellung gehört. */
+.truth-row.is-here { background: var(--c-panel-2); box-shadow: inset 2px 0 0 var(--c-signal); }
+.truth-row.is-here .cell { color: var(--c-text); }
+/* Eine Zeile, die nicht zur Ruhe kommt. */
+.truth-row.is-bad .cell-out { color: var(--c-err); }
+
+.truth-empty {
+  margin: 0;
+  padding: var(--sp-3) var(--sp-4);
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  color: var(--c-text-faint);
+}
+
+/* --- "Warum leuchtet das?" ---
+   Steht ganz oben in der Karte, solange genau eine Lampe angeklickt ist.
+   Die Farbe ist dieselbe, mit der die beteiligten Leitungen auf der Fläche
+   markiert sind – sonst gehörte beides nicht sichtbar zusammen. */
+.why-host[hidden] { display: none; }
+.why-host:not([hidden]) { margin-bottom: var(--sp-4); }
+
+.why {
+  padding: var(--sp-3);
+  background: rgba(75, 227, 176, .06);
+  border: 1px solid rgba(75, 227, 176, .22);
+  border-radius: var(--r-sm);
+}
+
+.why-head {
+  margin: 0 0 var(--sp-2);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--c-ok);
+}
+
+.why-text {
+  margin: 0;
+  font-size: var(--fs-md);
+  line-height: 1.55;
+  color: var(--c-text);
+}
+
+/* Name und Wert gehören zusammen und dürfen nicht umbrechen. */
+.why-pair { white-space: nowrap; }
+.why-name { font-family: var(--font-mono); color: var(--c-text); }
+.why-eq   { color: var(--c-text-faint); }
+.why-val  {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--c-text-dim);
+}
+.why-val.is-on { color: var(--c-signal); font-weight: 600; }
+
+/* --- Der Weg dorthin ---
+   Ein Baum, kein Pfad: Ein AND, das 1 ausgibt, hat zwei Gründe. Eingerückt
+   wird mit verschachtelten Kästen, damit die Linien bei jeder Tiefe stimmen. */
+.why-node { font-family: var(--font-mono); font-size: var(--fs-sm); }
+.why > .why-node { margin-top: var(--sp-3); }
+
+.why-kids {
+  margin-left: 5px;
+  padding-left: var(--sp-3);
+  border-left: 1px solid rgba(75, 227, 176, .25);
+}
+
+.why-row {
+  padding: 2px 0;
+  color: var(--c-text-dim);
+  line-height: 1.5;
+}
+.why-row.is-open { color: var(--c-text-faint); }
+.why-row.is-loop .why-name { color: var(--c-text-dim); }
+
+.why-tag {
+  margin-left: var(--sp-2);
+  padding: 1px 6px;
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  color: var(--c-text-faint);
+  background: var(--c-panel-2);
+  border-radius: 999px;
+}
+
+.why-note {
+  margin: var(--sp-3) 0 0;
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  color: var(--c-text-faint);
+}
+
+/* --- Auswahl-Marke im Kartenkopf --- */
+.card-step.is-select {
+  color: var(--c-ok);
+  background: rgba(75, 227, 176, .12);
+}
+
+/* --- Tooltip --- */
+.tip {
+  position: fixed;
+  z-index: 50;
+  max-width: 260px;
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--c-panel);
+  border: 1px solid var(--c-panel-border);
+  border-radius: var(--r-md);
+  box-shadow: var(--sh-float);
+  pointer-events: none;           /* darf den Zeiger nie abfangen */
+  animation: tip-in var(--t-fast) var(--ease-out) both;
+}
+
+.tip-head { display: flex; align-items: baseline; gap: var(--sp-2); }
+.tip-name { font-size: var(--fs-md); font-weight: 600; color: var(--c-text); }
+.tip-hint { font-size: var(--fs-xs); color: var(--c-text-faint); }
+
+.tip-desc {
+  margin: var(--sp-2) 0 0;
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  color: var(--c-text-dim);
+}
+.tip-note {
+  margin: var(--sp-2) 0 0;
+  font-size: var(--fs-xs);
+  line-height: 1.45;
+  color: var(--c-text-faint);
+}
+
+/* Mini-Wahrheitstabelle im Tooltip */
+.tip-truth {
+  margin-top: var(--sp-3);
+  border: 1px solid var(--c-panel-border);
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+}
+.tip-row { display: flex; border-top: 1px solid var(--c-panel-border); }
+.tip-row:first-child { border-top: 0; }
+.tip-row-head { background: #0c1119; color: var(--c-text-faint); }
+.tip-cell {
+  flex: 1;
+  min-width: 26px;
+  padding: 3px 0;
+  text-align: center;
+  color: var(--c-text-dim);
+  font-variant-numeric: tabular-nums;
+}
+.tip-cell-out { border-left: 1px solid var(--c-panel-border); color: var(--c-text); }
+.tip-cell-out.is-on { color: var(--c-signal); font-weight: 600; }
+
+/* --- Anschlüsse einer Vorlage ---
+   Steht zwischen Beschreibung und Tabelle: Die Spalten dort heißen genauso. */
+.pin-help {
+  margin-top: var(--sp-3);
+  padding-top: var(--sp-3);
+  border-top: 1px solid var(--c-panel-border);
+}
+.pin-help-row {
+  display: flex;
+  gap: var(--sp-2);
+  margin-bottom: 5px;
+  font-size: var(--fs-sm);
+  line-height: 1.45;
+}
+.pin-help-row:last-child { margin-bottom: 0; }
+.pin-help-name {
+  flex: none;
+  min-width: 34px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--c-signal);
+}
+.pin-help-text { color: var(--c-text-faint); }
+
+/* Beschriftung im Tooltip, etwa "CLK" */
+.tip-name.tip-pin { font-family: var(--font-mono); color: var(--c-signal); }

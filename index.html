@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="author" content="Julian Harder">
+<meta name="description" content="ELEKTRON – interaktive Werkstatt für Logikschaltungen. Aus NAND-Gattern eigene Bausteine bauen, bis zur Mini-CPU.">
+<title>ELEKTRON – interaktive Werkstatt für Logikschaltungen</title>
+
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/panels.css">
+<link rel="stylesheet" href="css/overlays.css">
+<link rel="stylesheet" href="css/card.css">
+<link rel="stylesheet" href="css/dialogs.css">
+<link rel="stylesheet" href="css/animations.css">
+</head>
+
+<body>
+
+<div id="app">
+
+  <!-- Kopfleiste -->
+  <header class="topbar">
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M3 8h4M3 16h4M7 5h5a7 7 0 0 1 0 14H7z M19.5 12H22"/>
+      </svg>
+      <span class="brand-text">
+        <span class="brand-name">ELEKTRON</span>
+        <span class="brand-by">by Julian Harder</span>
+      </span>
+    </div>
+    <div class="divider"></div>
+    <div class="title">interaktive Werkstatt f&uuml;r Logikschaltungen</div>
+    <div class="spacer"></div>
+    <button class="btn btn-ghost" id="btn-wipe" type="button" disabled
+            title="Alles von der Fl&auml;che r&auml;umen (Strg+Z holt es zur&uuml;ck)">
+      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 7h16 M9 7V4h6v3 M6 7l1 13h10l1-13 M10 11v6 M14 11v6"/>
+      </svg>
+      <span>Leeren</span>
+    </button>
+    <button class="btn btn-ghost" id="btn-menu" type="button" title="Menü öffnen"
+            aria-haspopup="dialog" aria-expanded="false">
+      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+        <path d="M4 7h16 M4 12h16 M4 17h16"/>
+      </svg>
+      <span>Menü</span>
+    </button>
+  </header>
+
+  <!-- Bausteinleiste -->
+  <aside class="sidebar">
+    <div class="panel-head">
+      <span class="panel-title">Bausteine</span>
+    </div>
+    <div class="palette scroll" id="palette"></div>
+  </aside>
+
+  <!-- Arbeitsfläche -->
+  <main class="stage" id="stage">
+    <canvas id="stage-canvas"></canvas>
+    <aside class="level-card panel" id="level-card" hidden></aside>
+    <div class="zoom-badge" id="zoom-badge">100 %</div>
+  </main>
+
+  <!-- Untere Leiste -->
+  <footer class="bottombar">
+    <div class="btn-group">
+      <button class="btn" id="btn-undo" type="button" title="R&uuml;ckg&auml;ngig" disabled>
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 10h9a5 5 0 0 1 0 10H8 M4 10l4-4 M4 10l4 4"/>
+        </svg>
+      </button>
+      <button class="btn" id="btn-redo" type="button" title="Wiederholen" disabled>
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20 10h-9a5 5 0 0 0 0 10h5 M20 10l-4-4 M20 10l-4 4"/>
+        </svg>
+      </button>
+      <button class="btn" id="btn-delete" type="button" title="L&ouml;schen" disabled>
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 7h16 M9 7V4h6v3 M6 7l1 13h10l1-13 M10 11v6 M14 11v6"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn" id="btn-zoom-out" type="button" title="Herauszoomen">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+          <path d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14z M20 20l-4-4 M8 11h6"/>
+        </svg>
+      </button>
+      <button class="btn" id="btn-zoom-in" type="button" title="Heranzoomen">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+          <path d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14z M20 20l-4-4 M11 8v6 M8 11h6"/>
+        </svg>
+      </button>
+      <button class="btn" id="btn-fit" type="button" title="Ansicht einpassen">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+          <path d="M4 9V4h5 M20 9V4h-5 M4 15v5h5 M20 15v5h-5"/>
+        </svg>
+      </button>
+      <button class="btn is-active" id="btn-grid" type="button" title="Raster ein- und ausblenden">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+          <path d="M4 4h16v16H4z M4 10h16 M4 16h16 M10 4v16 M16 4v16"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn is-active" id="btn-live" type="button" title="Live &ndash; rechnet sofort zu Ende">
+        <svg class="ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M8 5.5v13l11-6.5z"/>
+        </svg>
+        <span>Live</span>
+      </button>
+      <button class="btn" id="btn-slow" type="button" title="Zeitlupe &ndash; ein Tick nach dem anderen">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z M12 7.5V12l3 2"/>
+        </svg>
+        <span>Zeitlupe</span>
+      </button>
+      <button class="btn" id="btn-step" type="button" title="Einzelschritt &ndash; genau ein Tick">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M6 5.5v13l9-6.5z M18 5.5v13"/>
+        </svg>
+      </button>
+      <span class="tickcount" id="tickcount" title="Verstrichene Gatterlaufzeiten">0</span>
+    </div>
+
+    <div class="hintline" id="hintline"></div>
+  </footer>
+
+</div>
+
+<!-- Skripte in fester Reihenfolge: keine Module, keine Ladefunktionen.
+     Die Reihenfolge bildet die Abhängigkeiten ab. -->
+<script src="js/namespace.js"></script>
+
+<script src="js/util/math.js"></script>
+<script src="js/util/ids.js"></script>
+<script src="js/util/easing.js"></script>
+<script src="js/util/events.js"></script>
+<script src="js/util/dom.js"></script>
+<script src="js/util/storage.js"></script>
+
+<script src="js/model/parts.js"></script>
+<script src="js/model/Circuit.js"></script>
+<script src="js/model/commands.js"></script>
+<script src="js/model/History.js"></script>
+<script src="js/model/serialize.js"></script>
+
+<script src="js/render/theme.js"></script>
+<script src="js/render/Camera.js"></script>
+<script src="js/render/sprites.js"></script>
+<script src="js/render/grid.js"></script>
+<script src="js/render/symbols.js"></script>
+<script src="js/render/drawParts.js"></script>
+<script src="js/render/drawPins.js"></script>
+<script src="js/render/drawWires.js"></script>
+<script src="js/render/routes.js"></script>
+<script src="js/render/hit.js"></script>
+<script src="js/render/drawOverlay.js"></script>
+<script src="js/render/Renderer.js"></script>
+
+<script src="js/sim/compile.js"></script>
+<script src="js/sim/Engine.js"></script>
+<script src="js/sim/Clock.js"></script>
+<script src="js/sim/Runner.js"></script>
+<script src="js/sim/truth.js"></script>
+<script src="js/sim/gateTruth.js"></script>
+<script src="js/sim/why.js"></script>
+
+<script src="js/interact/Pointer.js"></script>
+<script src="js/interact/navigate.js"></script>
+<script src="js/interact/Selection.js"></script>
+<script src="js/interact/tools.js"></script>
+<script src="js/interact/toolPlace.js"></script>
+<script src="js/interact/toolConnect.js"></script>
+<script src="js/interact/toolMove.js"></script>
+<script src="js/interact/shortcuts.js"></script>
+
+<script src="js/ui/icons.js"></script>
+<script src="js/ui/Palette.js"></script>
+<script src="js/ui/MenuPanel.js"></script>
+<script src="js/ui/ContextMenu.js"></script>
+<script src="js/ui/TruthCard.js"></script>
+<script src="js/ui/AskDialog.js"></script>
+<script src="js/ui/Tooltip.js"></script>
+<script src="js/ui/WhyBox.js"></script>
+<script src="js/ui/TemplateMenu.js"></script>
+
+<script src="js/templates/index.js"></script>
+<script src="js/templates/gates.js"></script>
+<script src="js/templates/built.js"></script>
+
+<script src="js/app/drawScene.js"></script>
+<script src="js/app/store.js"></script>
+<script src="js/app/bench.js"></script>
+<script src="js/app/App.js"></script>
+<script src="js/app/appTable.js"></script>
+<script src="js/app/main.js"></script>
+
+</body>
+</html>

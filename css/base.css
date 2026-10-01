@@ -1,0 +1,90 @@
+/* Reset, Schriftbindung und Grundlayout. */
+
+/* Lokale Schriften – wenn die Dateien fehlen, greift der Fallback-Stack aus tokens.css.
+   Dateien gehören nach assets/fonts/ (siehe assets/fonts/README.txt). */
+@font-face {
+  font-family: 'Inter';
+  src: url('../assets/fonts/Inter-Regular.woff2') format('woff2');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('../assets/fonts/Inter-Medium.woff2') format('woff2');
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('../assets/fonts/Inter-SemiBold.woff2') format('woff2');
+  font-weight: 600; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('../assets/fonts/JetBrainsMono-Regular.woff2') format('woff2');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background: var(--c-bg);
+  color: var(--c-text);
+  font-family: var(--font-ui);
+  font-size: var(--fs-md);
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+h1, h2, h3, h4, p, ul, ol { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+
+.mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.dim  { color: var(--c-text-dim); }
+
+/* Eigene Scrollbars statt der Systemleisten.
+
+   Es gibt drei scrollbare Felder: die Bausteinleiste, die Karte und das
+   Menü. Die beiden ersten tragen die Klasse .scroll, das Menü nicht – es
+   scrollt über sein eigenes overflow:auto. Deshalb stehen beide Wege hier
+   nebeneinander; sonst zeigt genau ein Feld die helle Systemleiste. */
+.scroll, .menu-panel, .card-body {
+  scrollbar-width: thin;
+  scrollbar-color: #2a3548 transparent;
+}
+.scroll { overflow-y: auto; }
+.scroll::-webkit-scrollbar,
+.menu-panel::-webkit-scrollbar,
+.card-body::-webkit-scrollbar { width: 10px; }
+.scroll::-webkit-scrollbar-track,
+.menu-panel::-webkit-scrollbar-track,
+.card-body::-webkit-scrollbar-track { background: transparent; }
+.scroll::-webkit-scrollbar-thumb,
+.menu-panel::-webkit-scrollbar-thumb,
+.card-body::-webkit-scrollbar-thumb {
+  background: #2a3548;
+  border: 3px solid transparent;
+  border-radius: 999px;
+  background-clip: content-box;
+}
+.scroll::-webkit-scrollbar-thumb:hover,
+.menu-panel::-webkit-scrollbar-thumb:hover,
+.card-body::-webkit-scrollbar-thumb:hover { background: #3a4760; background-clip: content-box; }
+
+/* Sichtbarer Fokus für Tastaturbedienung, aber nicht bei Mausklicks. */
+:focus { outline: none; }
+:focus-visible {
+  outline: 2px solid var(--c-signal);
+  outline-offset: 2px;
+  border-radius: var(--r-sm);
+}
+
+canvas { display: block; touch-action: none; }

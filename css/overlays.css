@@ -1,0 +1,156 @@
+/* Overlays: Erfolg, Menü, Tutorial, Tooltips, Toasts.
+   In Etappe 0/1 nur die Grundformen – gefüllt wird später. */
+
+.overlay-scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 9, 14, .62);
+  backdrop-filter: blur(3px);
+  z-index: 40;
+  display: grid;
+  place-items: center;
+}
+
+.tooltip {
+  position: fixed;
+  z-index: 60;
+  max-width: 240px;
+  padding: 6px 9px;
+  font-size: var(--fs-sm);
+  color: var(--c-text);
+  background: #161e2b;
+  border: 1px solid var(--c-panel-border);
+  border-radius: var(--r-sm);
+  box-shadow: var(--sh-float);
+  pointer-events: none;
+}
+
+.toast-stack {
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--h-bottombar) + var(--sp-4));
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  z-index: 50;
+  pointer-events: none;
+}
+.toast {
+  padding: 8px 14px;
+  font-size: var(--fs-md);
+  background: #161e2b;
+  border: 1px solid var(--c-panel-border);
+  border-radius: 999px;
+  box-shadow: var(--sh-float);
+}
+.toast.is-err { border-color: rgba(255, 93, 115, .5); background: #21151a; }
+.toast.is-ok  { border-color: rgba(75, 227, 176, .5); background: #13201d; }
+
+/* --- Menü-Panel --- */
+.menu-panel {
+  width: min(420px, calc(100vw - var(--sp-6)));
+  max-height: calc(100vh - var(--sp-7));
+  overflow: auto;
+  background: var(--c-panel);
+  border: 1px solid var(--c-panel-border);
+  border-radius: var(--r-xl);
+  box-shadow: var(--sh-float);
+  animation: menu-rise var(--t-med) var(--ease-out) both;
+}
+.menu-head {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-3) var(--sp-3) var(--sp-5);
+  border-bottom: 1px solid var(--c-panel-border);
+}
+.menu-title {
+  flex: 1;
+  font-size: var(--fs-lg);
+  font-weight: 600;
+  letter-spacing: .04em;
+}
+.menu-close { padding: 6px; }
+
+.menu-section { padding: var(--sp-5); }
+.menu-section-title {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin: 0 0 var(--sp-3);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--c-text-dim);
+}
+.menu-section-title .ico { width: 15px; height: 15px; color: var(--c-signal); }
+
+/* Karte "Über": Amber nur als schmale Kante, nicht als Fläche. */
+.about-card {
+  padding: var(--sp-4) var(--sp-5);
+  background: var(--c-panel-2);
+  border: 1px solid var(--c-panel-border);
+  border-left: 2px solid var(--c-signal);
+  border-radius: var(--r-md);
+}
+.about-name {
+  font-size: var(--fs-xl);
+  font-weight: 600;
+  letter-spacing: .18em;
+}
+.about-sub { margin-top: 2px; font-size: var(--fs-md); color: var(--c-text-dim); }
+/* Signatur gedämpft – sie steht dabei, drängt sich aber nicht auf. */
+.about-by {
+  margin-top: var(--sp-2);
+  font-size: var(--fs-sm);
+  color: var(--c-text-faint);
+  letter-spacing: .04em;
+}
+.about-text {
+  margin: var(--sp-4) 0 0;
+  font-size: var(--fs-md);
+  line-height: 1.6;
+  color: var(--c-text-dim);
+}
+.about-origin { color: var(--c-text-faint); }
+.about-meta {
+  margin-top: var(--sp-4);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--c-text-faint);
+}
+
+/* --- Kontextmenü auf der Arbeitsfläche --- */
+.ctx-menu {
+  position: fixed;
+  z-index: 70;
+  min-width: 190px;
+  padding: var(--sp-1);
+  background: var(--c-panel);
+  border: 1px solid var(--c-panel-border);
+  border-radius: var(--r-md);
+  box-shadow: var(--sh-float);
+  animation: menu-rise var(--t-fast) var(--ease-out) both;
+}
+.ctx-item {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  width: 100%;
+  padding: 7px var(--sp-3);
+  border: 0;
+  border-radius: var(--r-sm);
+  background: none;
+  color: var(--c-text);
+  font: inherit;
+  font-size: var(--fs-md);
+  text-align: left;
+  cursor: pointer;
+}
+.ctx-item:hover:not(:disabled) { background: var(--c-panel-hover); }
+.ctx-item:disabled { color: var(--c-text-faint); cursor: default; }
+.ctx-item .ico { width: 16px; height: 16px; flex: none; color: var(--c-text-dim); }
+.ctx-item:hover:not(:disabled) .ico { color: var(--c-signal); }
+.ctx-sep { height: 1px; margin: var(--sp-1) 0; background: var(--c-panel-border); }

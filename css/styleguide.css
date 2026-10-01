@@ -1,0 +1,69 @@
+/* Nur fuer styleguide.html – die Entwicklerseite zum Pruefen des Looks. */
+
+html, body { overflow: auto; height: auto; }
+body { padding: 0 0 64px; }
+
+.sg-head {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: 0 var(--sp-5);
+  height: var(--h-topbar);
+  background: rgba(13, 19, 28, .88);
+  border-bottom: 1px solid var(--c-panel-border);
+  backdrop-filter: blur(10px);
+}
+.sg-head .brand .mark { color: var(--c-signal); }
+
+.sg-wrap { max-width: 1180px; margin: 0 auto; padding: var(--sp-6) var(--sp-5); }
+
+.sg-section { margin-bottom: var(--sp-7); }
+.sg-section > h2 {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--c-text-faint);
+  margin-bottom: var(--sp-3);
+  padding-bottom: var(--sp-2);
+  border-bottom: 1px solid var(--c-panel-border);
+}
+.sg-section > p { color: var(--c-text-dim); font-size: var(--fs-sm); margin-bottom: var(--sp-4); }
+
+.sg-grid { display: flex; flex-wrap: wrap; gap: var(--sp-3); }
+
+.sg-tile {
+  background: var(--c-bg);
+  border: 1px solid var(--c-panel-border);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+.sg-tile canvas { display: block; }
+.sg-tile .cap {
+  padding: 6px 10px;
+  font-size: var(--fs-xs);
+  color: var(--c-text-dim);
+  border-top: 1px solid var(--c-panel-border);
+  background: var(--c-panel);
+  white-space: nowrap;
+}
+.sg-tile .cap b { color: var(--c-text); font-weight: 500; }
+
+.sg-swatches { display: flex; flex-wrap: wrap; gap: var(--sp-3); }
+.sg-swatch { width: 132px; }
+.sg-swatch .chip {
+  height: 46px;
+  border-radius: var(--r-sm);
+  border: 1px solid rgba(255, 255, 255, .08);
+}
+.sg-swatch .nm  { margin-top: 6px; font-size: var(--fs-sm); }
+.sg-swatch .val { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--c-text-faint); }
+
+.sg-type p { margin-bottom: var(--sp-2); }
+.sg-type .t-xl { font-size: 28px; font-weight: 600; letter-spacing: -.01em; }
+.sg-type .t-lg { font-size: var(--fs-xl); font-weight: 600; }
+.sg-type .t-md { font-size: var(--fs-lg); }
+.sg-type .t-mono { font-family: var(--font-mono); font-size: var(--fs-lg); color: var(--c-signal); }

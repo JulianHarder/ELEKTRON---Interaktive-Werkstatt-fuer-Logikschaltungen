@@ -1,0 +1,66 @@
+/* Design-Tokens "Nachtblaupause" – zentrale Quelle für Farben, Abstände, Schriften.
+   Die Canvas-Seite spiegelt diese Werte in js/render/theme.js. Beide müssen zusammenpassen. */
+
+:root {
+  /* --- Flächen --- */
+  --c-bg:            #0a0e16;
+  --c-grid-dot:      #1e2839;
+  --c-grid-dot-maj:  #2b3a54;
+
+  --c-panel:         #10161f;
+  --c-panel-2:       #141c27;
+  --c-panel-border:  #1f2a3b;
+  --c-panel-hover:   #18212e;
+
+  /* --- Text --- */
+  --c-text:          #e6ecf5;
+  --c-text-dim:      #8a97ab;
+  --c-text-faint:    #5a6678;
+
+  /* --- Signal & Leitungen --- */
+  --c-wire-off:      #3a4a63;
+  --c-signal:        #ffb547;
+  --c-signal-soft:   #ffcd80;
+  --c-signal-glow:   rgba(255, 181, 71, .28);
+
+  /* --- Status --- */
+  --c-ok:            #4be3b0;
+  --c-err:           #ff5d73;
+  --c-ok-soft:       rgba(75, 227, 176, .16);
+  --c-err-soft:      rgba(255, 93, 115, .16);
+
+  /* --- Bauteilkörper --- */
+  --c-body-top:      #1c2536;
+  --c-body-bottom:   #141b29;
+  --c-body-border:   #33435e;
+  --c-body-gloss:    rgba(255, 255, 255, .06);
+
+  /* --- Abstände (4px-Raster) --- */
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 24px; --sp-6: 32px; --sp-7: 48px;
+
+  /* --- Radien --- */
+  --r-sm: 6px;  --r-md: 10px; --r-lg: 12px; --r-xl: 16px;
+
+  /* --- Schrift --- */
+  --font-ui:   'Inter', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Cascadia Mono', 'SF Mono', Consolas, 'Liberation Mono', monospace;
+
+  --fs-xs: 11px; --fs-sm: 12px; --fs-md: 13px; --fs-lg: 15px; --fs-xl: 19px;
+
+  /* --- Bewegung --- */
+  --t-fast:  140ms;
+  --t-med:   220ms;
+  --t-slow:  340ms;
+  --ease-out: cubic-bezier(.22, .61, .36, 1);
+  --ease-in-out: cubic-bezier(.65, .05, .36, 1);
+
+  /* --- Erhebung --- */
+  --sh-panel: 0 8px 28px rgba(0, 0, 0, .45);
+  --sh-float: 0 12px 40px rgba(0, 0, 0, .55);
+
+  /* --- Maße der Oberfläche --- */
+  --h-topbar:    48px;
+  --h-bottombar: 56px;
+  --w-palette:   208px;
+}

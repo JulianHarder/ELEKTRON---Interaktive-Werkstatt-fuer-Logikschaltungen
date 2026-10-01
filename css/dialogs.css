@@ -1,0 +1,108 @@
+/* Menü und Fenster: Vorlagenliste und die Rückfrage beim Einsetzen.
+   Was über der Arbeitsfläche liegt, steht in card.css. */
+
+/* --- Vorlagen im Menü --- */
+.menu-total {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--c-text-faint);
+}
+.menu-lead {
+  margin: 0 0 var(--sp-4);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  color: var(--c-text-faint);
+}
+
+.tpl-group-label {
+  margin: var(--sp-4) 0 var(--sp-2);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--c-text-faint);
+}
+.tpl-group-label:first-of-type { margin-top: 0; }
+
+.tpl-list { display: flex; flex-direction: column; gap: 2px; }
+.tpl-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-2) var(--sp-3);
+  border: 0;
+  border-radius: var(--r-sm);
+  background: none;
+  color: var(--c-text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.tpl-row:hover { background: var(--c-panel-hover); }
+.tpl-row.is-current { background: var(--c-panel-2); box-shadow: inset 2px 0 0 var(--c-signal); }
+
+.tpl-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.tpl-name { font-size: var(--fs-md); }
+.tpl-note {
+  font-size: var(--fs-xs);
+  color: var(--c-text-faint);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tpl-go {
+  flex: none;
+  width: 13px; height: 13px;
+  color: var(--c-text-faint);
+  opacity: 0;
+  transition: opacity var(--t-fast) var(--ease-out);
+}
+.tpl-row:hover .tpl-go { opacity: 1; color: var(--c-signal); }
+
+.menu-wide { width: 100%; justify-content: center; margin-top: var(--sp-5); }
+.menu-danger { color: var(--c-text-dim); }
+.menu-danger.is-armed { color: var(--c-err); border-color: rgba(255, 93, 115, .5); }
+
+/* --- Rückfrage beim Einsetzen --- */
+.ask-panel {
+  width: min(400px, calc(100vw - var(--sp-6)));
+  padding: var(--sp-5);
+  background: var(--c-panel);
+  border: 1px solid var(--c-panel-border);
+  border-radius: var(--r-xl);
+  box-shadow: var(--sh-float);
+  animation: menu-rise var(--t-med) var(--ease-out) both;
+}
+.ask-title { margin: 0; font-size: var(--fs-lg); font-weight: 600; }
+.ask-text  { margin: var(--sp-2) 0 0; font-size: var(--fs-sm); color: var(--c-text-faint); }
+
+.ask-options { display: flex; flex-direction: column; gap: var(--sp-2); margin-top: var(--sp-5); }
+.ask-option {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  text-align: left;
+  background: var(--c-panel-2);
+  border: 1px solid var(--c-panel-border);
+  border-radius: var(--r-md);
+  color: var(--c-text);
+  font: inherit;
+  cursor: pointer;
+  transition: border-color var(--t-fast) var(--ease-out),
+              background var(--t-fast) var(--ease-out);
+}
+.ask-option:hover { background: var(--c-panel-hover); border-color: #33435e; }
+.ask-option.is-primary { border-left: 2px solid var(--c-signal); }
+.ask-option .ico { width: 18px; height: 18px; flex: none; margin-top: 1px; color: var(--c-text-faint); }
+.ask-option.is-primary .ico { color: var(--c-signal); }
+
+.ask-option-text  { display: flex; flex-direction: column; gap: 2px; }
+.ask-option-label { font-size: var(--fs-md); font-weight: 600; }
+.ask-option-note  { font-size: var(--fs-sm); line-height: 1.45; color: var(--c-text-faint); }
+
+.ask-cancel { width: 100%; justify-content: center; margin-top: var(--sp-4); }
