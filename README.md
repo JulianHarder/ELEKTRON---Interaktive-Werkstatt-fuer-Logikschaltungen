@@ -196,3 +196,7 @@ Konsolenmeldung.**
 [JetBrains Mono](https://www.jetbrains.com/lp/mono/) 2.304, beide unter der
 SIL Open Font License. Die Lizenztexte liegen in `assets/fonts/` und gehören
 mit ausgeliefert.
+
+---
+
+Mit freundlicher Unterstützung der KI erstellt
