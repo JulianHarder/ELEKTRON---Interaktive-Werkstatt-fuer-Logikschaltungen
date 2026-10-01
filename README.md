@@ -18,6 +18,8 @@ leuchten.*
 
 **Doppelklick auf `index.html`.** Das ist alles.
 
+Ist für den Desktop optimiert. Am Handy ist es nicht so optimal zu sehen
+
 Link zur Livedemo: https://julianharder.github.io/Elektron---Interaktive-Werkstatt-f-r-Logikschaltungen/
 
 Keine Installation, kein `npm install`, kein Build-Schritt, kein Server. Die
